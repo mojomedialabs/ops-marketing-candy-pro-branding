@@ -1,0 +1,616 @@
+<script>
+<!--ProductIds-->
+<!--ProductCosting-->
+<!--ExtraJavaScript-->
+
+function CheckOptions() {
+	$(".product-quantity input[type='text']").attr("disabled", false);
+
+	return HasSelected(document.Form1.elements['template'], 'Product');
+}
+
+function openWin(strURL) {
+	var winCurrent
+	winCurrent = window.open(strURL, "", "width=600,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
+	winCurrent.focus();
+}
+
+function HasSelected(ctrlRadio, strCaption) {
+	var blnOK = false;
+
+	if (ctrlRadio.length != null) {
+		for (var i = 0; i < ctrlRadio.length; i++) {
+			if (ctrlRadio[i].checked) {
+				if (document.getElementById("totalqty" + ctrlRadio[i].value) != null) {
+					if (!String(document.getElementById("totalqty" + ctrlRadio[i].value).value).match(/^\d+$/)) {
+						alert("Please enter a numeric quantity");
+						document.getElementById("totalqty" + ctrlRadio[i].value).focus();
+						return false;
+					}
+				}
+				blnOK = true;
+				if (!CheckExtraFields(ctrlRadio[i].value)) return false;
+
+				if (document.getElementById("qty" + ctrlRadio[i].value) != null) {
+					if (!String(document.getElementById("qty" + ctrlRadio[i].value).value).match(/^\d+$/)) {
+						alert("Please enter a numeric quantity");
+						document.getElementById("qty" + ctrlRadio[i].value).focus();
+						return false;
+					}
+				}
+				blnOK = true;
+				if (!CheckExtraFields(ctrlRadio[i].value)) return false;
+			}
+		}
+		if (blnOK) return true;
+	} else if (ctrlRadio.checked) {
+		return CheckExtraFields(ctrlRadio.value);
+	}
+	alert('Please select a ' + strCaption);
+	return false;
+}
+
+function CheckExtraFields(ProductId) {
+	return true;
+}
+
+function openHelp(strURL) {
+	var winCurrent
+	winCurrent = window.open(strURL, "", "width=450,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
+	winCurrent.focus();
+}
+
+function FillBox(strCurBox, intArrayIndex) {
+	var aryArraysCur = eval('aryArrays' + intArrayIndex);
+	var aryBoxesCur = eval('aryBoxes' + intArrayIndex);
+	var aryBoxValuesCur = eval('aryBoxValues' + intArrayIndex);
+
+	for (var i = 0; i < aryArraysCur.length; i++) {
+		if (aryArraysCur[i] == strCurBox) {
+			aryBoxValuesCur[i] = document.Form1.elements[aryBoxesCur[i]].value;
+			for (var j = i + 1; j < aryArraysCur.length; j++) {
+				SetupBox(document.Form1.elements[aryBoxesCur[j]], eval(aryArraysCur[j]), j, intArrayIndex);
+			}
+
+			break;
+		}
+	}
+
+	for (var i = 0; i < aryBoxesCur.length; i++) {
+		aryBoxValuesCur[i] = document.Form1.elements[aryBoxesCur[i]].value;
+	}
+
+	GetCost(aryProductIds[intArrayIndex - 1], intArrayIndex);
+}
+
+function GetCost(strProduct, intArrayIndex) {
+	if (document.getElementById('qty' + strProduct) != null) {
+		var aryCosting = eval('aryProductCost' + strProduct);
+		var aryUrgentCosting = eval('aryProductUrgentCost' + strProduct);
+		var cboCurrent = document.getElementById('qty' + strProduct);
+		var intIndex = -1;
+		var i = 0;
+		var strCost2 = 0;
+		var strCost = 0;
+		var strUrgentCost = 0;
+		var checkUrgent = document.getElementById('urgent' + strProduct);
+
+		if (cboCurrent[1].value != '0') {
+			for (i = 0; i < aryCosting.length; i = i + 2) {
+				if (aryCosting[i] == cboCurrent[cboCurrent.selectedIndex].value) {
+					intIndex = i;
+				}
+			}
+		} else {
+			for (var i = 0; i < document.Form1.elements.length; i++) {
+				if (document.Form1.elements[i].type == "checkbox") {
+					if (document.Form1.elements[i].value == strProduct) {
+						document.Form1.elements[i].style.display = "none";
+					}
+				}
+			}
+		}
+
+		if (intIndex >= 0) {
+			strCost = aryCosting[intIndex + 1];
+			if (checkUrgent != null) {
+				if (document.Form1.elements['urgent' + strProduct].value != '') {
+					if (document.Form1.elements['urgent' + strProduct].checked) strUrgentCost = aryUrgentCosting[intIndex + 1];
+				}
+			}
+			if (strCost == '') strCost = 0;
+			if (strUrgentCost == '') strUrgentCost = 0;
+		}
+
+		if (intArrayIndex > 0) {
+			var aryCur = eval('aryBoxValues' + intArrayIndex)
+			var aryCur2;
+			for (i = 0; i < aryCur.length; i++) {
+				if (aryCur[i] != '') {
+					aryCur2 = eval(eval('aryArrays' + intArrayIndex)[i]);
+					for (var j = 0; j < aryCur2.length; j++) {
+						if (aryCur2[j][0] == aryCur[i]) {
+							switch (aryCur2[j][6]) {
+							case 'total':
+								strCost2 = strCost2 + (parseFloat(aryCur2[j][5]) * cboCurrent[cboCurrent.selectedIndex].text);
+								break;
+							case 'units':
+								strCost2 = strCost2 + (parseFloat(aryCur2[j][5]) * cboCurrent[cboCurrent.selectedIndex].value);
+								break;
+							default:
+								strCost2 = strCost2 + parseFloat(aryCur2[j][5]);
+							}
+							break;
+						}
+					}
+				}
+			}
+
+		}
+
+		strCost = strCost + strCost2 + strUrgentCost;
+		if (strCost == 0) {
+			strCost = ''
+		} else {
+			strCost = CurrencyFormatted(strCost)
+		};
+		if (strCost != '') {
+			strCost = '<br>{CurrencySymbol}' + strCost;
+			eval(document.getElementById("templatecost" + strProduct)).innerHTML = strCost;
+		}
+
+		if (cboCurrent[cboCurrent.selectedIndex].value == "") {
+			document.Form1.elements['template' + strProduct].checked = false;
+		} else {
+			document.Form1.elements['template' + strProduct].checked = true;
+		}
+	}
+}
+
+function CheckMe(strProduct) {
+	if (document.Form1.elements['totalqty' + strProduct].value > 0) {
+		document.Form1.elements['template' + strProduct].checked = true;
+	} else {
+		document.Form1.elements['template' + strProduct].checked = false;
+	}
+}
+
+function CurrencyFormatted(strCost) {
+	var minus = '';
+	var i = parseFloat(strCost);
+
+	if (isNaN(i)) i = 0.00;
+	if (i < 0) minus = '-';
+	i = Math.abs(i);
+	i = parseInt((i + .005) * 100);
+	i = (i / 100);
+	s = new String(i);
+	if (s.indexOf('.') < 0) s += '.00';
+	if (s.indexOf('.') == (s.length - 2)) s += '0';
+	s = minus + s;
+	return s;
+}
+
+function SetupBoxes() {
+	var aryArraysCur;
+	var aryBoxesCur;
+
+	for (var i = 1; i <= aryProductIds.length; i++) {
+		aryArraysCur = eval('aryArrays' + i);
+		aryBoxesCur = eval('aryBoxes' + i);
+		for (var j = 0; j < aryBoxesCur.length; j++) {
+			SetupBox(document.getElementById(aryBoxesCur[j]), eval(aryArraysCur[j]), j, i);
+		}
+	}
+
+	for (var i = 0; i < aryAllProductIds.length; i++) {
+		GetCost(aryAllProductIds[i], 0);
+	}
+}
+
+function SetupBox(cboCur, aryOp, intIndex, intArrayIndex) {
+	var aryCur;
+	var aryCur2;
+	var aryCur3;
+	var aryCurBoxValues;
+	var cboCur;
+	var blnAddIt = true;
+
+	aryCurBoxValues = eval('aryBoxValues' + intArrayIndex);
+
+	while (cboCur.length > 0) cboCur.remove(0);
+
+	cboCur[cboCur.length] = new Option('', '');
+
+	for (var i = 0; i < aryOp.length; i++) {
+		aryCur = aryOp[i];
+
+		for (var j = 0; j < aryCur.length; j = j + 7) {
+			if (aryCur[j + 2] == true) {
+				blnAddIt = true;
+			} else {
+				aryCur2 = eval('aryLink' + aryCur[j]);
+				for (var k = 0; k < aryCur2.length; k++) {
+					aryCur3 = aryCur2[k];
+					blnAddIt = true;
+					for (var l = 0; l < aryCur3.length; l++) {
+						blnAddIt = InArray(aryCur3[l], aryCurBoxValues);
+						if (blnAddIt == false) break;
+					}
+
+					if (blnAddIt) break;
+				}
+			}
+			if (blnAddIt) {
+				cboCur[cboCur.length] = new Option(aryCur[j + 1], aryCur[j]);
+				if (aryCurBoxValues[intIndex] == aryCur[j]) cboCur.selectedIndex = cboCur.length - 1;
+			}
+		}
+	}
+	return true;
+}
+
+function InArray(strItem, aryCurBoxValues) {
+	for (var i = 0; i < aryCurBoxValues.length; i++) {
+		if (strItem == aryCurBoxValues[i]) return true;
+	}
+	return false;
+}
+
+function showhelp(strHeader, strHelp, evt, blnShow) {
+	var tempX = 0;
+	var tempY = 0;
+	var strVis = "hidden";
+	var IE = document.all ? true : false;
+	var hp = document.getElementById("help_popup").style;
+
+	document.getElementById("help_header").innerHTML = "";
+	document.getElementById("help_body").innerHTML = "";
+	hp.visibility = "hidden";
+
+	if (blnShow) {
+		strVis = "visible";
+		if (IE) {
+			tempX = event.clientX + document.body.scrollLeft;
+			tempY = event.clientY + document.body.scrollTop;
+		} else {
+			tempX = evt.pageX;
+			tempY = evt.pageY;
+		}
+
+		hp.top = tempY - 30;
+		hp.left = tempX + 20;
+		document.getElementById("help_header").innerHTML = strHeader;
+		document.getElementById("help_body").innerHTML = strHelp;
+	}
+
+	hp.visibility = strVis;
+}
+
+function isWhitespace(strCurrent) {
+	var i;
+	var whitespace = " \t\n\r";
+
+	if (isEmpty(strCurrent)) return true;
+
+	for (i = 0; i < strCurrent.length; i++) {
+		var c = strCurrent.charAt(i);
+
+		if (whitespace.indexOf(c) == -1) return false;
+	}
+
+	return true;
+}
+
+function isEmpty(strCurrent) {
+	return ((strCurrent == null) || (strCurrent.length == 0));
+}
+
+function CheckEntry(ctrlCur, strCaption, blnRequired, strLength, strType, strErrorMessage) {
+	var strTempMsg = strErrorMessage;
+
+	if ((isWhitespace(document.Form1.elements[ctrlCur].value)) && blnRequired) {
+		if (strTempMsg != '') {
+			alert(strTempMsg);
+		} else {
+			alert('You must enter a value for ' + strCaption);
+		}
+		document.Form1.elements[ctrlCur].focus();
+		return false;
+	}
+
+	if (strLength != '') {
+		var intLen = parseInt(strLength);
+
+		if (intLen != 0) {
+			if ((document.Form1.elements[ctrlCur].value.length != intLen) && (strType == 'exactly')) {
+				if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length == 0)) return true;
+				if (strErrorMessage == '') {
+					strTempMsg = 'Please enter ' + strLength + ' characters for ' + strCaption
+				}
+				alert(strTempMsg);
+
+				return false;
+			}
+
+			if ((document.Form1.elements[ctrlCur].value.length < intLen) && (strType == 'at least')) {
+				if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length == 0)) return true;
+				if (strErrorMessage == '') {
+					strTempMsg = 'Please enter at least ' + strLength + ' characters for ' + strCaption
+				}
+				alert(strTempMsg);
+
+				return false;
+			}
+
+			if ((document.Form1.elements[ctrlCur].value.length > intLen) && (strType == 'at most')) {
+				if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length == 0)) return true;
+				if (strErrorMessage == '') {
+					strTempMsg = 'Please enter at most ' + strLength + ' characters for ' + strCaption + '\n(You have entered ' + document.Form1.elements[ctrlCur].value.length + ' characters)'
+				}
+				alert(strTempMsg);
+
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+function download(objThis, strTId) {
+	window.location = 'DownloadProduct.asp?downloadpdf=1&tid=' + strTId;
+}
+
+function functionOnLoad() {
+	return SetupBoxes();
+}
+
+function getUrlParams() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+
+    return vars;
+}
+
+$.fn.forceInteger = function() {
+	return this.each(function() {
+		$(this).keydown(function(event) {
+			var key = event.which || event.keyCode;
+
+			if (!(!event.shiftKey && !event.altKey && !event.ctrlKey &&
+				//numbers
+				((key >= 48 && key <= 57) ||
+				//numeric keypad
+				(key >= 96 && key <= 105) ||
+				//backspace, tab, and enter
+				key === 8 || key === 9 || key === 13 ||
+				//home and end
+				key === 35 || key === 36 ||
+				//left and right arrows
+				key === 37 || key === 39 ||
+				//delete and insert
+				key === 46 || key === 45))) {
+				event.preventDefault();
+			}
+		});
+	});
+};
+
+$(function() {
+	$(".product-thumbnail img").removeAttr("width");
+
+	$(".product-actions input[type='checkbox']").attr("checked", true);
+
+	if ($(".product").length !== 0) {
+		$("#product-categories").remove();
+	}
+
+	$("#favorites img").remove();
+
+	if ($(".extras-headers").text() !== "") {
+		$(".product-quantity input[type='text']").attr("disabled", true);
+
+		var extraFieldHeaders = $(".extras-headers").text().split(";");
+
+		$(".product-extras input[type='text']").each(function(index) {
+			$(this).wrap("<div class='product-extra-field' />");
+
+			$(this).before("<label for='" + $(this).attr("name") + "'>" + extraFieldHeaders[index] + "</label>");
+		});
+
+		$(".product-extra-field input[type='text']").forceInteger();
+
+		$(".product-extra-field input[type='text']").keyup(function() {
+			var totalQuantity = 0;
+
+			$(".product-extra-field input[type='text']").each(function() {
+				var quantity = parseInt($(this).val(), 10)
+
+				if (isNaN(quantity)) {
+					quantity = 0;
+				}
+
+				totalQuantity += quantity;
+			});
+
+			$(".product-quantity input[type='text']").val(totalQuantity.toString());
+		});
+	}
+
+	$("#btnCartContinueBottom").click(function(event) {
+		var minimumQuantity = $(".product-minimum-quantity").text();
+
+		minimumQuantity = parseInt(minimumQuantity.substr(minimumQuantity.indexOf(": ") + 2), 10);
+
+		if ($(".product-quantity input[type='text']").val() === "") {
+			alert("You must order at least " + minimumQuantity.toString() + " of this product.");
+
+			event.preventDefault();
+		}
+
+		var quantity = parseInt($(".product-quantity input[type='text']").val(), 10);
+
+		if (quantity < minimumQuantity) {
+			alert("You must order at least " + minimumQuantity.toString() + " of this product.");
+
+			event.preventDefault();
+		}
+	});
+
+	$("#btnCartBottom").click(function(event) {
+		var minimumQuantity = $(".product-minimum-quantity").text();
+
+		minimumQuantity = parseInt(minimumQuantity.substr(minimumQuantity.indexOf(": ") + 2), 10);
+
+		if ($(".product-quantity input[type='text']").val() === "") {
+			alert("You must order at least " + minimumQuantity.toString() + " of this product.");
+
+			event.preventDefault();
+		}
+
+		var quantity = parseInt($(".product-quantity input[type='text']").val(), 10);
+
+		if (quantity < minimumQuantity) {
+			alert("You must order at least " + minimumQuantity.toString() + " of this product.");
+
+			event.preventDefault();
+		}
+	});
+
+	$("#Form1").submit(function(event) {
+		var minimumQuantity = $(".product-minimum-quantity").text();
+
+		var minimumQuantity = parseInt(minimumQuantity.substr(minimumQuantity.indexOf(": ") + 2), 10);
+
+		if ($(".product-quantity input[type='text']").val() === "") {
+			alert("You must order at least " + minimumQuantity.toString() + " of this product.");
+
+			event.preventDefault();
+		}
+
+		var quantity = parseInt($(".product-quantity input[type='text']").val(), 10);
+
+		if (quantity < minimumQuantity) {
+			alert("You must order at least " + minimumQuantity.toString() + " of this product.");
+
+			event.preventDefault();
+		}
+	});
+});
+</script>
+<div id="added-to-cart">
+	<div id="added-to-cart-header">
+		Added to cart!
+	</div>
+	<div id="added-to-cart-body">
+	</div>
+</div>
+<!--TABTABLE-->
+<!--TabTableStart-->
+<form id="products-search" method="post" name="frmSearch">
+	<label for="txtSearch">Search:</label>
+	<input type="text" name="txtSearch" id="txtSearch" value="{search}" />
+	<input type="submit" name="btnSearch" id="btnSearch" value= "Go" />
+	<input type="hidden" name="ccid" value="{ccid}" />
+	<input type="hidden" name="nothing" />
+</form>
+<form name="Form1" method="Post" onSubmit="return CheckOptions();">
+	<!--Products-->
+	<!--ADDCART-->
+	<div class="products-add-to-cart">
+		<input type="submit" name="btnCartContinue" id="btnCartContinueTop" value="Add to Cart" />
+		<input type="submit" name="btnCart" id="btnCartTop" value="Add to Cart and Checkout" />
+	</div>
+	<!--/ADDCART-->
+	<div id="products">
+		<div class="extras-headers"><!--ExtraHeader--></div>
+		<!--ProductStyle-->
+		<script>
+			if (getUrlParams()["itemsadded"] == "1") {
+			    $("#added-to-cart-body").append("You have added {templatename} to your cart. View <a href='cart.asp'>your cart</a> to review.");
+
+				$("#added-to-cart").show().fadeOut(7500);
+
+				$("#added-to-cart").mouseover(function() {
+					$(this).stop().css({ opacity: 1.0 });
+				});
+
+				$("#added-to-cart").mouseout(function() {
+					$(this).fadeOut(4000);
+				});
+			}
+		</script>
+		<div id="product-{templateid}" class="product">
+			<input type="hidden" name="ProductName{templateid}" value="{templatename}" />
+			<div class="product-name">
+				<h1>{templatename}</h1>
+			</div>
+			<div class="product-thumbnail">
+				<img src={thumb} id="thumbimg{templateid}" />
+			</div>
+			<div class="product-description-container">
+				<!--Description-->
+				{desc}
+				<!--/Description-->
+			</div>
+			<div class="product-extras">
+				{extras}
+			</div>
+			<div class="product-actions">
+				<div class="product-checkbox">
+					<!--ProductCheckBox-->
+					<label for="template{templateid}">Add<input type="checkbox" name="template" id="template{templateid}" value="{templateid}" checked></label>
+					<!--/ProductCheckBox-->
+				</div>
+				<div class="product-quantity">
+					<label for="qty{templateid}">Qty {quantity}</label>
+				</div>
+
+				<div class="products-add-to-cart">
+					<input type="submit" name="btnCartContinue" id="btnCartContinueBottom" value="Add to Cart" />
+					<input type="submit" name="btnCart" id="btnCartBottom" value="Add to Cart and Checkout" />
+				</div>
+				<div class="product-favorite">
+					<!--Favourite-->
+					<a href="javascript:void open('AddFav.asp?Id={templateid}', '_blank', 'scrollbars=no,width=450,height=350')"><img src="Files/BrokerBranding/mc/Include/favorite.png" title="Add to Favorites!" /></a>
+					<!--/Favourite-->
+				</div>
+			</div>
+		</div>
+		<!--/ProductStyle-->
+	</div>
+	<!--/Products-->
+	<!--CATEGORIES-->
+	<div id="favorites">{Favorites}</div>
+	<div id="product-categories">
+		<!--menuitem-->
+		<div class="product-category">
+			<div class="product-category-thumbnail">
+				{Thumbnail1}
+			</div>
+			<div class="product-category-name">
+				{Caption1}
+			</div>
+		</div>
+		<!--CategoryItem2-->
+		<div class="product-category">
+			<div class="product-category-thumbnail">
+				{Thumbnail2}
+			</div>
+			<div class="product-category-name">
+				{Caption2}
+			</div>
+		</div>
+		<!--/CategoryItem2-->
+		<!--/menuitem-->
+	</div>
+	<!--/CATEGORIES-->
+</form>
+<!--TabTableEnd-->
+<!--/TABTABLE-->
