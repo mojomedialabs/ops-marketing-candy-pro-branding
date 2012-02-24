@@ -183,7 +183,7 @@ header {
 
 #main-nav ul li a {
 	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/menuarrow.png") no-repeat scroll right center transparent;
-	padding: 5px 15px 5px 5px;
+	padding: 5px 11px 5px 1px;
 }
 
 #main-nav ul li a:hover, #main-nav ul li a:focus {
@@ -287,7 +287,7 @@ footer p a {
 
 /* Begin Message */
 
-#message {
+#alert-message {
 	background: #f7f7f7;
 	border: 1px solid #bab9b9;
 	display: none;
@@ -301,32 +301,32 @@ footer p a {
 	z-index: 10;
 }
 
-#message-header {
+#alert-message-title {
 	font-weight: bold;
 	margin-bottom: 10px;
 }
 
-#message.attention {
+#alert-message.attention {
 	background: #ffdb91 url("attention.png") no-repeat 15px center;
 	border: 1px solid #ffc44a;
 }
 
-#message.success {
+#alert-message.success {
 	background: #e2ff7d url("success.png") no-repeat 15px center;
 	border: 1px solid #99c600;
 }
 
-#message.error {
+#alert-message.error {
 	background: #f5b5a9 url("error.png") no-repeat 15px center;
 	border: 1px solid #eb5339;
 }
 
-#message.information {
+#alert-message.information {
 	background: #b3cfea url("information.png") no-repeat 15px center;
 	border: 1px solid #418acc;
 }
 
-#message.lightbulb {
+#alert-message.lightbulb {
 	background: #feefcb url("lightbulb.png") no-repeat 15px center;
 	border: 1px solid #d3a350;
 }
@@ -860,6 +860,26 @@ select[name="DeliveryAddress"] {
 
 #checkout-order-details {
 	margin-bottom: 20px;
+}
+
+#confirm-remove-item {
+	background: #f7f7f7;
+	border: 1px solid #bab9b9;
+	display: none;
+	left: 5px;
+	height: 17px;
+	position: absolute;
+	padding: 44px 15px;
+	text-align: left;
+	top: 5px;
+	width: 300px;
+	z-index: 10;
+}
+
+#close-confirm-remove-item {
+	position: absolute;
+	right: -8px;
+	top: -8px;
 }
 
 /* End Checkout */

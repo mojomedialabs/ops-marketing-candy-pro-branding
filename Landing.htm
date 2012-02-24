@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>{Title}</title>
-	<meta name="description" content="{metadescription}" />
-	<meta name="keywords" content="{metakeywords}" />
+	<meta name="description" content="Marketing Candy Pro Store" />
 	<meta name="author" content="Mojo Media Labs" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link href="include/reset.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="include/index.css" media="screen" rel="stylesheet" type="text/css">
-	<script src="include/modernizr.js"></script>
-	<script src="include/jquery164min.js"></script>
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script src="include/jquery171min.js"></script>
+	<script src="include/index.js"></script>
 </head>
 <body>
 	<div id="content">
-		<header>
+		<header id="main-header">
 			<div id="logo">
-				<a href="http://marketing-candy.com/"><img src="include/logo.png" /></a>
+				<a href="http://marketing-candy.com/"><img src="include/logo.png" alt="Marketing Candy Logo" /></a>
 			</div>
 			<nav id="main-nav">
 				<ul>
@@ -25,42 +26,43 @@
 					<li><a href="productcats.asp">Products</a></li>
 					<li><a href="orders.asp">Orders</a></li>
 					<li><a href="cart.asp">Shopping Cart</a></li>
-					<li><a href="page.asp?name=Learn+More+About+Pro+Stores">Reports</a></li>
+					<!--APPROVE--><li><a href="approve.asp">Approve</a></li><!--/APPROVE-->
+					<li><a href="reports.asp">Reports</a></li>
 					<li><a href="login.asp">Logout</a></li>
 				</ul>
 			</nav>
-			<div id="social">
+			<nav id="social">
 				<a id="rss" href="http://marketing-candy.com/feed/"></a>
 				<a id="twitter" href="http://twitter.com/marketing_candy"></a>
 				<a id="facebook" href="http://www.facebook.com/pages/Marketing-Candy-A-Rose-Group-Company/122688894441196"></a>
 				<a id="linkedin" href="http://www.linkedin.com/pub/nikole-rose/5/682/68"></a>
-			</div>
+			</nav>
 		</header>
 		<div id="sidebar">
 			<nav id="sidebar-nav">
 				<ul>
-					<li><a href="http://marketing-candy.com/search-promo-products" target="_blank"><img src="include/searchpromoproductsbutton.png"  title="Search Promo Products" /></a></li>
-					<li><a href="http://marketing-candy.com/online-software-demo/" target="_blank"><img src="include/onlinesolutiondemo.png"  title="Online Solution Demo" /></a></li>
-					<li><a href="http://marketing-candy.com/news-events/candy-show-cases/" target="_blank"><img src="include/showcasersvpbutton.png" title="Showcase Registration" /></a></li>
-					<li><a href="http://marketing-candy.com/request-a-quote/" target="_blank"><img src="include/requestaquotebutton.png" title="Request a Quote" /></a></li>
-					<li><a href="page.asp?name=Learn+More+About+Pro+Stores"><img src="include/learnmoreprobutton.png" title="Learn more about going pro!" /></a></li>
+					<li><h1>Products</h1></li>
+					<li><a href="ProductCats.asp?cid=186&amp;itemname=Drinkware">Drinkware</a></li>
+					<li><a href="ProductCats.asp?cid=189&amp;itemname=Stationary%2FBags">Stationary/Bags</a></li>
+					<li><a href="ProductCats.asp?cid=181&amp;itemname=Writing+Instruments">Writing Instruments</a></li>
+					<li><h1>Settings</h1></li>
 					<li><a href="registration.asp">Edit Your Account</a></li>
 				</ul>
 			</nav>
 		</div>
 		<div id="main" class="landing">
 			<div id="welcome">
-				<h1>Welcome to your Marketing Candy<br /><span class="huge">STANDARD STORE</span></h1>
+				<h1>Welcome to your Marketing Candy<br /><span class="huge">PRO STORE</span></h1>
 				<div id="candy-cart">
 					<img src="include/candycart.png" alt="Candy Cart" title="Candy Cart" />
 				</div>
 			</div>
-			<p>Your Standard Store is a collection of all your branded promotional and print products that have been purchased through Marketing Candy. Your Standard Store makes re-ordering products and researching past order details easy!</p>
+			<p>Your Pro Store is a collection of all your branded promotional and print products that have been purchased through Marketing Candy. Your Pro Store makes re-ordering products and researching past order details easy!</p>
 			<p>To view your collection of ordered products, <a href="productcats.asp"><img src="include/clickhere.png" alt="Click Here!" style="vertical-align: middle;" /></a></p>
 			<p><em>Thank you for being a valued Marketing Candy client!</em></p>
 			<p>For questions or technical support, email us at: <a href="support@teamrgc.com">support@teamrgc.com</a> or call 972-815-1080.</p>
 		</div>
-		<footer>
+		<footer id="main-footer">
 			<p>Design by <a href="http://mojomedialabs.com/">Mojo Media Labs</a></p>
 		</footer>
 	</div>

@@ -1,111 +1,7 @@
 <script src="include/ajax.js"></script>
 <script>
-function setImage(strField, strLibraryImageId, strFile) {
-	document.Form1[strField].value = strLibraryImageId;
-	document.Form1["img" + strField].src = strFile;
-	document.Form1["delimg" + strField].style.display = '';
-	document.Form1["img" + strField].border = '1';
-}
-
-function deleteImage(remove) {
-	document.getElementById(remove).value = '';
-	document.getElementById('img' + remove).src = 'images/spacer.gif';
-	document.getElementById('img' + remove).border = '0';
-	document.getElementById('delimg' + remove).style.display = 'none';
-}
-
-function popup(strUrl) {
-	var winEd
-	winEd = window.open(strUrl, "", "width=620,height=320,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
-	winEd.focus();
-}
-
 function functionOnLoad() {
 	setup();
-}
-
-function CheckUsername(x) {
-	var y = document.getElementById(x).value;
-	if (y != '') {
-		if (!AjaxGet("Registration.asp?CheckUser=" + y, CUChanged)) {
-			//document.getElementById("promotion").innerHTML = "Browser doesn't support AJAX";
-		}
-	}
-}
-
-function CUChanged() {
-	var strResult;
-
-	if (xmlHttp.readyState == 4) {
-		if (xmlHttp.responseText == "") {
-
-		} else {
-			strResult = xmlHttp.responseText;
-			if (strResult == 'No') {
-				console.log("That user name is already taken.");
-
-				$("#btnSubmit").attr("disabled", true);
-
-				$("#message-header").empty();
-
-				$("#message-header").append("Error!");
-
-				$("#message-body").empty();
-
-				$("#message-body").append("That user name is already taken.");
-
-				$("#message").removeClass();
-
-				$("#message").addClass("error")
-
-				$("#message").stop().show().css({ opacity: 1.0 }).fadeTo(4000, 0.0);
-
-				/*$("#message").mouseover(function() {
-					$(this).stop().css({ opacity: 1.0 });
-				});
-
-				$("#message").mouseout(function() {
-					$(this).fadeTo(2000, 0.0);
-				});*/
-
-				$("#UserName").css("background-color", "#f5b5a9");
-			} else {
-				console.log("That user name is available.");
-
-				$("#btnSubmit").attr("disabled", false);
-
-				$("#message-header").empty();
-
-				//$("#message-header").append("");
-
-				$("#message-body").empty();
-
-				$("#message-body").append("That user name is available.");
-
-				$("#message").removeClass();
-
-				$("#message").addClass("success")
-
-				$("#message").stop().show().css({ opacity: 1.0 }).fadeTo(4000, 0.0);
-
-				/*$("#message").mouseover(function() {
-					$(this).stop().css({ opacity: 1.0 });
-				});
-
-				$("#message").mouseout(function() {
-					$(this).fadeTo(2000, 0.0);
-				});*/
-
-				$("#UserName").css("background-color", "#ffffff");
-			}
-		}
-	}
-}
-
-function OpenWin(strURL) {
-	var winCurrent
-	winCurrent = window.open(strURL, "", "width=600,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
-	winCurrent.focus();
 }
 
 function setup() {
@@ -231,31 +127,6 @@ function HasSelected(ctrlRadio, strCaption) {
 	return false;
 }
 
-function LogMeIn() {
-	var teUser = document.getElementById("user");
-	var tePassword = document.getElementById("password");
-
-	document.getElementById("loginmsgs").innerHTML = "<img src='images/process.gif' width=20>";
-	if (!AjaxGet("loginajax.asp?u=" + teUser.value + "&p=" + tePassword.value)) {
-		document.getElementById("loginmsgs").innerHTML = "Browser doesn't support AJAX";
-	}
-}
-
-function stateChanged() {
-	var teUser = document.getElementById("user");
-	var tePassword = document.getElementById("password");
-
-	if (xmlHttp.readyState == 4) {
-		//document.getElementById("loginmsgs").innerHTML=xmlHttp.responseText;
-		if (xmlHttp.responseText == "0") {
-			//window.location = "cart.asp?u=" + teUser.value + "&p=" + tePassword.value;
-			window.location = "{successreturnurl}";
-		} else {
-			document.getElementById("loginmsgs").innerHTML = "<span style='color: #ff0000;'>Username/Password entered was incorrect.</span>";
-		}
-	}
-}
-
 function EIFGroupClicked(strVal) {
 	var aryGroups;
 	var iCntr = 0;
@@ -313,27 +184,10 @@ function setOpacity(opacity, objObject) {
 	objObject.style.opacity = opacity / 100;
 }
 </script>
-<script>
-$(function() {
-	$("#message").mouseover(function() {
-		$(this).stop().css({ opacity: 1.0 });
-	});
-
-	$("#message").mouseout(function() {
-		$(this).fadeTo(2000, 0.0);
-	});
-
-	$("#forgot-your-password").click(function(event) {
-		event.preventDefault();
-
-		OpenWin('ForgottenPassword.asp');
-	});
-});
-</script>
-<div id="message">
-	<div id="message-header">
+<div id="alert-message">
+	<div id="alert-message-title">
 	</div>
-	<div id="message-body">
+	<div id="alert-message-body">
 	</div>
 </div>
 <h2>Already a registered user?</h2>
@@ -346,13 +200,12 @@ $(function() {
 			<label for="password">Password</label> <input id="password" name="password" type="password" value="" />
 		</div>
 		<div style="float: left;">
-			<input type="button" value="Login" onclick="if ((user.value === '') && (password.value === '')) { return false; } else { LogMeIn(); }" />
+			<input type="button" value="Login" id="login-button" />
 		</div>
 	</div>
-	<p id="loginmsgs">
-	</p>
+	<p id="loading"></p>
 	<p>
-		<a href="#" id="forgot-your-password">Forgot your password?</a>
+		<a href="ForgottenPassword.asp" id="forgot-your-password" class="new-window" title="Forgot your password?" data-height="400" data-width="600">Forgot your password?</a>
 	</p>
 	<!--Redirect-->
 </form>
@@ -379,7 +232,7 @@ $(function() {
 	<div class="registration-field-row">
 		<div class="registration-field">
 			<label for="UserName">User Name</label><br />
-			<input type="text" id="UserName" name="UserName" value="{UserName}" onkeyup="CheckUsername(this.id);" />
+			<input type="text" id="UserName" name="UserName" value="{UserName}" />
 		</div>
 		<div class="registration-field">
 			<label for="Password">Password</label><br />
@@ -483,3 +336,4 @@ $(function() {
 	<input type="submit" value="Skip Registration" id="btnSubmit" name="btnSubmit" style="margin-top: 10px;" /><!--Redirect-->
 </form>
 <!--/Skip-->
+<script src="http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/include/registration.js"></script>

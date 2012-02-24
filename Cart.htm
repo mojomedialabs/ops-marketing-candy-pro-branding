@@ -3,221 +3,14 @@
 <script src="include/validation.js"></script>
 <script src="include/highslide.js"></script>
 <script src="include/highslide.cfg.js"></script>
-<script>
-function stopRKey(evt) {
-	var evt = (evt) ? evt : ((event) ? event : null);
-	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-	if ((evt.keyCode == 13) && (node.type != "textarea")) {
-		return false;
-	}
-}
-
-document.onkeypress = stopRKey;
-
-function CheckLiveStock() {
-	var inputs = document.getElementsByTagName('input');
-	var Orders = '';
-	for (var i = 0; i < inputs.length; i++) {
-		if ((inputs[i].type == 'checkbox') && (inputs[i].name == 'chkOrder')) {
-			if (inputs[i].checked) Orders = Orders + inputs[i].value + ','
-		}
-	}
-	Orders = Orders.substring(0, Orders.length - 1);
-
-	if (!AjaxGet("CheckLiveStockAjax.asp?Orders=" + Orders, AfterCheckStock, false)) {
-		alert("Browser doesn't support AJAX");
-	}
-
-	if (xmlHttp.responseText == 'OK') {
-		return true;
-	}
-	else {
-		if (xmlHttp.responseText == 'NOKCap') {
-			alert('{Cart - Quantity Cap Error Return Cart}');
-			return false;
-		} else {
-			alert('{Cart - Stock Level Error}');
-			return false;
-		}
-	}
-}
-
-function AfterCheckStock() {
-	return true;
-}
-
-function ShowDelOptions() {
-	document.getElementById('modad').innerHTML = "";
-	document.getElementById('tabDelDetails').style.display = "";
-	document.getElementById('tabDelDetails2').style.display = "";
-}
-
-function ValidData() {
-	var blnOk;
-	<!--oldDeliveryAddressLogic-->
-	blnOk = hasAddress();
-
-	if (blnOk) {
-		blnOk = hasBillingAddress();
-	}
-	return blnOk;
-}
-
-function deleteOrder(strURL) {
-	if (confirm("Are you sure you want to remove this order from your cart?")) {
-		window.location = strURL
-	}
-}
-
-function ValidFreeAddress() {
-	if ((document.Form1.Address1.value + document.Form1.Address2.value + document.Form1.Address3.value + document.Form1.Suburb.value + document.Form1.State.value + document.Form1.PostCode.value) == '') {
-		return true;
-	} else {
-		if (document.Form1.Country.value == "IE") {
-			if (((document.Form1.Address1.value + document.Form1.Address2.value + document.Form1.Address3.value) == '') || (document.Form1.Suburb.value == '') || (document.Form1.State.value == '')) {
-				alert('Please enter a value for ' + document.getElementById("captionstreet").innerHTML.replace("&nbsp;", " ") + ', ' + document.getElementById("captionsuburb").innerHTML + ' and ' + document.getElementById("captionstate").innerHTML);
-				return false;
-			} else {
-				return true
-			}
-		} else {
-			if (((document.Form1.Address1.value + document.Form1.Address2.value + document.Form1.Address3.value) == '') || (document.Form1.Suburb.value == '') || (document.Form1.State.value == '') || (document.Form1.PostCode.value == '')) {
-				alert('Please enter a value for ' + document.getElementById("captionstreet").innerHTML.replace("&nbsp;", " ") + ', ' + document.getElementById("captionsuburb").innerHTML + ', ' + document.getElementById("captionstate").innerHTML + ' and ' + document.getElementById("captionpostcode").innerHTML);
-				return false;
-			} else {
-				return true
-			}
-		}
-	}
-}
-
-function ValidFreeBillAddress() {
-	if ((document.Form1.BillingAddress1.value + document.Form1.BillingAddress2.value + document.Form1.BillingAddress3.value + document.Form1.BillingSuburb.value + document.Form1.BillingState.value + document.Form1.BillingPostCode.value) == '') {
-		return true;
-	} else {
-		if (((document.Form1.BillingAddress1.value + document.Form1.BillingAddress2.value + document.Form1.BillingAddress3.value) == '') || (document.Form1.BillingSuburb.value == '') || (document.Form1.BillingState.value == '') || (document.Form1.BillingPostCode.value == '')) {
-			alert('Please enter a value for Billing ' + document.getElementById("captionstreet").innerHTML.replace("&nbsp;", " ") + ', ' + document.getElementById("captionsuburb").innerHTML + ', ' + document.getElementById("captionstate").innerHTML + ' and ' + document.getElementById("captionpostcode").innerHTML);
-			return false;
-		} else {
-			return true;
-		}
-	}
-}
-
-function HasFreeAddress() {
-	return (document.Form1.Address1.value + document.Form1.Address2.value + document.Form1.Address3.value + document.Form1.Suburb.value + document.Form1.State.value + document.Form1.PostCode.value != '');
-}
-
-function HasFreeBillAddress() {
-	if (document.Form1.BillingAddress1 != "") {
-		return (document.Form1.BillingAddress1.value + document.Form1.BillingAddress2.value + document.Form1.BillingAddress3.value + document.Form1.BillingSuburb.value + document.Form1.BillingState.value + document.Form1.BillingPostCode.value != '');
-	}
-}
-
-function HasStatAddress() {
-	return (document.Form1.DelAddrStat.checked);
-}
-
-function HasDefAddress() {
-	return (document.Form1.DeliveryAddress.value != '');
-}
-
-function HasDefBillAddress() {
-	if (document.Form1.BillingAddress1 != '') {
-		return (document.Form1.BillingAddress.value != '');
-	}
-}
-
-checked = true;
-
-function checkDispatchProfile(intDispatchProfile_Id) {
-	var inputs = document.getElementsByTagName('input');
-
-	for (var i = 0; i < inputs.length; i++) {
-		if ((inputs[i].type == 'checkbox') && (inputs[i].size == intDispatchProfile_Id)) {
-			if (inputs[i].checked) {
-				inputs[i].checked = false;
-			} else  {
-				inputs[i].checked = true;
-			}
-		}
-	}
-}
-
-function checkAll() {
-	var inputs = document.getElementsByTagName('input');
-
-	if (checked == false) {
-		checked = true;
-	} else {
-		checked = false;
-	}
-
-	for (var i = 0; i < inputs.length; i++) {
-		if (inputs[i].type == 'checkbox') {
-			inputs[i].checked = checked;
-		}
-	}
-}
-
-function AddToCarts() {
-	var strURL = "";
-	var strOrders = "";
-	var strDelim = "";
-
-	if (document.Form1.chkOrder.length > 1) {
-		for (i = 0; i < document.Form1.chkOrder.length; i++) {
-			if (document.Form1.chkOrder[i].checked == true) {
-				strOrders = strOrders + strDelim + document.Form1.chkOrder[i].value;
-				strDelim = ",";
-			}
-		}
-	} else {
-		if (document.Form1.chkOrder.checked == true) {
-			strOrders = strOrders + document.Form1.chkOrder.value;
-		}
-	}
-
-	strURL = "AdminCopyOrders.asp?OrderIds=" + strOrders + "&cc={CC}";
-	window.location = strURL;
-}
-
-function getPromotion(strCode) {
-	if (document.getElementById("promocode").value == "") {
-		alert("Please enter a promocode to apply.");
-	} else {
-		document.getElementById("applypromotion").disabled = true;
-		document.getElementById("applypromotion").value = "Checking...";
-
-		if (!AjaxGet("Promotions.asp?check=1&code=" + strCode + "&cc={CC}", ApplyPromo)) {
-			document.getElementById("promotion").innerHTML = "Browser doesn't support AJAX";
-		}
-	}
-}
-
-function ApplyPromo() {
-	var aryVal
-
-	if (xmlHttp.readyState == 4) {
-		document.getElementById("applypromotion").disabled = false;
-		document.getElementById("applypromotion").value = "Apply";
-
-		if (xmlHttp.responseText == "") {
-			if (document.getElementById("promocode").value == "") {
-				document.getElementById("promotion").innerHTML = "";
-			} else {
-				document.getElementById("promotion").innerHTML = "Promotion [" + document.getElementById("promocode").value + "] not found";
-			}
-			document.getElementById("promocode").value = "";
-		} else {
-			window.location = "Promotions.asp?code=" + xmlHttp.responseText + "&cc={CC}";
-		}
-	}
-}
-</script>
-<div id="help_popup">
-	<div id="help_header"></div>
-	<div id="help_body"></div>
+<script src="http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/include/cart.js"></script>
+<div id="alert-message">
+	<div id="alert-message-title"></div>
+	<div id="alert-message-body"></div>
+</div>
+<div id="confirm-remove-item">
+	<a href="#" id="close-confirm-remove-item"><img src="Files/BrokerBranding/mcpro/Include/close.png" alt="Close" title="Close" /></a>
+	<input type="button" id="btnsave" value="Place in Saved Orders" data-order-id="" data-cc="" /> <input type="button" id="btnaddtocarts" value="Remove from Order" data-order-id="" data-cc="" />
 </div>
 <!--ORDERS-->
 <!--Budget-->
@@ -234,12 +27,12 @@ function ApplyPromo() {
 	</div>
 </div>
 <!--/Budget-->
-<form action="checkout.asp" id="Form1" method="post" name="Form1" onsubmit="return ValidData();">
+<form action="checkout.asp" id="Form1" method="post" name="Form1">
 	<input id="cc" name="cc" type="hidden" value="{CC}" />
 	<table id="cart">
 		<thead>
 			<tr>
-				<th scope="col" class="cart-checkbox"><input checked="true" id="checkall" name="checkall" type="checkbox" onclick="checkAll(Form1);" /></th>
+				<th scope="col" class="cart-checkbox"><input checked="true" id="checkall" name="checkall" type="checkbox" /></th>
 				<th scope="col" class="cart-item-number">Item #</th>
 				<th scope="col" class="cart-date">Date</th>
 				<th scope="col" class="cart-quantity">Quantity</th>
@@ -255,7 +48,7 @@ function ApplyPromo() {
 		<tbody>
 			<!--DispatchProfileRow-->
 			<tr>
-				<td><input checked="true" id="checkdispatchprofile" name="checkdispatchprofile" type="checkbox" onclick="checkDispatchProfile({DispatchProfile_Id});" /></td>
+				<td><input checked="true" id="checkdispatchprofile" name="checkdispatchprofile" type="checkbox" data-dispatch-profile-id="{DispatchProfile_Id}" /></td>
 				<td colspan="0">{DispatchProfileCaption}</td>
 			</tr>
 			<!--/DispatchProfileRow-->
@@ -263,10 +56,10 @@ function ApplyPromo() {
 			<tr>
 				<td class="cart-checkbox">
 					<!--CheckBox{Order_Id}-->
-					<input name="chkOrder" size="{DispatchProfile_Id}" type="checkbox" value="{Order_Id}" <!--check-->>
+					<input name="chkOrder" size="{DispatchProfile_Id}" type="checkbox" value="{Order_Id}" <!--check--> />
 					<!--/CheckBox{Order_Id}-->
 					<!--ErrorMessage{Order_Id}-->
-					<a href="#" onmouseover="showhelp('{WarningTitle{Order_Id}}', '{WarningMessage{Order_Id}}',event, true);" onmouseout="showhelp('','',event,false);"><img src="Files/BrokerBranding/mc/Include/error.png" /></a>
+					<a href="#" class="show-alert-message" data-alert-message-title="{WarningTitle{Order_Id}}" data-alert-message-body="{WarningMessage{Order_Id}}" data-alert-message-class="error"><img src="Files/BrokerBranding/mc/Include/error.png" /></a>
 					<!--/ErrorMessage{Order_Id}-->
 				</td>
 				<td class="cart-item-number">{OrderNumber}</td>
@@ -279,8 +72,8 @@ function ApplyPromo() {
 				<!--COST--><td class="cart-cost">{Discount{Order_Id}} {Cost}</td><!--/COST-->
 				<!--Delivery--><td>{Address}</td><!--/Delivery-->
 				<td class="cart-actions">
-					<a href="ShowOrder.asp?Order={Order_Id}&load=1"><img src="Files/BrokerBranding/mc/Include/search.png" alt="View/Edit Item" title="View/Edit Item" /></a>
-					<a href="CartItemEdit.asp?order={Order_Id}&cc={CC}" id="hsfileattachment" onclick="return hs.htmlExpand(this, { outlineType: 'rounded-white', wrapperClassName: 'highslide-wrapper', objectType: 'iframe', preserveContent: false, width:400} )" class="highslide"><img src="Files/BrokerBranding/mc/Include/delete.png" alt="Remove Item" title="Remove Item" /></a>
+					<a href="ShowOrder.asp?Order={Order_Id}&amp;load=1"><img src="Files/BrokerBranding/mcpro/Include/search.png" alt="View/Edit Item" title="View/Edit Item" /></a>
+					<a href="#" class="remove-item" data-order-id="{Order_Id}" data-cc="{CC}"><img src="Files/BrokerBranding/mcpro/Include/delete.png" alt="Remove Item" title="Remove Item" /></a>
 				</td>
 			</tr>
 			<!--Postage-->
@@ -343,20 +136,21 @@ function ApplyPromo() {
 	<!--/FreightOptions-->
 	<!--PromotionCode-->
 	<div id="promotion-code">
+		<p id="promotion"></p>
 		<p>
 			<label for="promocode">Promotion Code:</label><br />
-			<input id="promocode" name="promocode" size="10" type="text" onblur="getPromotion(document.getElementById('promocode').value);" />
+			<input id="promocode" name="promocode" size="10" type="text" />
 		</p>
 		<p>
-			<input id="applypromotion" name="applypromotion" type="button" value="Apply" onclick="getPromotion(document.getElementById('promocode').value);"/>
+			<input id="applypromotion" name="applypromotion" type="button" value="Apply" data-cc="{CC}" />
 		</p>
 	</div>
 	<!--/PromotionCode-->
 	<div id="delivery">
 		<!--DeliveryAddresses-->
 		<script>
-			CountryChanged();
-			CountryChangedBilling();
+			//CountryChanged();
+			//CountryChangedBilling();
 		</script>
 	</div>
 	<div id="login">
@@ -370,8 +164,8 @@ function ApplyPromo() {
 	<!--/UPSFEDEX-->
 	<input id="EditInCart" name="EditInCart" type="hidden" value="{EditInCart}" />
 	<input id="AllocateBudget" name="AllocateBudget" type="hidden" value="{AllocateBudget}" />
-	<input id="btncontinueshopping" type="button" value="Continue Shopping" onclick="window.location='cIndex.asp';" />
+	<input id="btncontinueshopping" type="button" value="Continue Shopping" />
 	<!--AddToCarts--><input id="btnaddtocarts" value="Add to other Carts"  type="button" onclick="javascript:AddToCarts();" /><!--/AddToCarts-->
-	<!--Checkout--><input id="btnCheckout" name="btnCheckout" type="submit" value="Checkout" {checkoutdisabled}  onclick="return CheckLiveStock();" /><!--/Checkout-->
+	<!--Checkout--><input id="btnCheckout" name="btnCheckout" type="submit" value="Checkout" {checkoutdisabled} /><!--/Checkout-->
 </form>
 <!--/ORDERS-->
