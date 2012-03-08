@@ -27,78 +27,37 @@ function initialiseScreen() {
 	}
 }
 
-function showhelp(strHeader, strHelp, evt, blnShow) {
-	var tempX = 0;
-	var tempY = 0;
-	var strVis="hidden";
-	var IE = document.all?true:false;
-	var hp = document.getElementById("help_popup").style;
-
-	document.getElementById("help_header").innerHTML = "";
-	document.getElementById("help_body").innerHTML =  "";
-	hp.visibility = "hidden";
-
-	if (blnShow) {
-		strVis = "visible";
-
-		if (IE) {
-			tempX = event.clientX + document.body.scrollLeft;
-			tempY = event.clientY + document.body.scrollTop;
-		} else {
-			tempX = evt.pageX;
-			tempY = evt.pageY;
-		}
-
-		hp.top = tempY-30;
-		hp.left = tempX+20;
-
-		document.getElementById("help_header").innerHTML = strHeader;
-		document.getElementById("help_body").innerHTML = strHelp;
-	}
-
-	hp.visibility = strVis;
-}
-
 function functionOnLoad() {
 	initialiseScreen();
 }
-
-$(function() {
-	$("#order-proof-thumbnail img").attr("width", "");
-	$("#order-proof-thumbnail img").attr("border", "");
-	$("#order-proof-thumbnail p").remove();
-});
 </script>
-<div id="help_popup">
-	<div id="help_header"></div>
-	<div id="help_body"></div>
-</div>
 <!--TabTableStart-->
-<div id="order-{torder}" class="order-proof">
-	<div id="order-proof-thumbnail">
-		<form action="Step5Edit.asp" method="post">
-			<input type="hidden" name="torder3" id="torder3" value="{torder}" />
-			<!--HiddenVariables-->
-			<!--HiddenEVariables-->
-			<!--EditArtWork-->
-				<!--EditArtworkDetailsButton-->
-				<input type="submit" value="Edit Artwork Details" />
-				<!--/EditArtworkDetailsButton-->
-			<!--/EditArtWork-->
-			<!--fthumb-->
-			<div id="order-proof-thumbnail-front">
-				{FrontFile}
-			</div>
-			<!--/fthumb-->
-			<!--bthumb-->
-			<div id="order-proof-thumbnail-back">
-				{BackFile}
-			</div>
-			<!--/bthumb-->
-		</form>
+	<div id="order-{torder}" class="order-proof">
+		<div id="order-proof-thumbnail">
+			<form action="Step5Edit.asp" method="post">
+				<input type="hidden" name="torder3" id="torder3" value="{torder}" />
+				<!--HiddenVariables-->
+				<!--HiddenEVariables-->
+				<!--fthumb-->
+					<div id="order-proof-thumbnail-front">
+						{FrontFile}
+					</div>
+				<!--/fthumb-->
+				<!--bthumb-->
+					<div id="order-proof-thumbnail-back">
+						{BackFile}
+					</div>
+				<!--/bthumb-->
+				<!--EditArtWork-->
+					<!--EditArtworkDetailsButton-->
+						<input type="submit" value="Edit Artwork Details" />
+					<!--/EditArtworkDetailsButton-->
+				<!--/EditArtWork-->
+			</form>
+		</div>
+		<div id="order-proof-details">
+			!user/proofRHS.htm!
+		</div>
 	</div>
-	<div id="order-proof-details">
-		!user/proofRHS.htm!
-	</div>
-</div>
 <!--TabTableEnd-->
+<script src="http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/include/proofstationary.js"></script>

@@ -18,18 +18,18 @@
 	  <!--validateField-->
 	  <!--visibleField-->
 	}
-	
+
 	function loadSelectImages(){
 		var strFieldName = "";
 		var intCount = 1;
 		var elem = document.getElementById("Form1").elements;
 		for(var i = 0; i < elem.length; i++){
 			strFieldName = "" + elem[i].name + "";
-			if (strFieldName.match("pdfs_id")){
+			if (strFieldName.match("pdfs_id") && elem[i].type != "hidden"){
 				if(elem[i].value != ''){
 					ShowThumb(elem[i], intCount);
-					intCount++;
 				}
+				intCount++;
 			}
 		}
 	}
@@ -66,7 +66,7 @@
 		if (limitField.value.length > limitNum) {
 			limitField.value = limitField.value.substring(0, limitNum);
 			document.getElementById(limitField.id + "MaxChars").innerHTML = "<br>-Max Characters Reached-";
-		
+
 		}
 			else{
 					document.getElementById(limitField.id + "MaxChars").innerHTML = "";
@@ -75,15 +75,15 @@
 
 	function PartialEscape (strInput)
 	{	var strTemp;
-		strTemp = strInput.replace(/%/g,'%25'); 
-		strTemp = strTemp.replace(/(\r\n|[\r\n])/g,'%0D%0A'); //Escape carrage returns - line feeds 
-		strTemp = strTemp.replace(/&/g,'%26');  
-		strTemp = strTemp.replace(/\+/g,'%2B');  
-		strTemp = strTemp.replace(/ /g,'%20');  
+		strTemp = strInput.replace(/%/g,'%25');
+		strTemp = strTemp.replace(/(\r\n|[\r\n])/g,'%0D%0A'); //Escape carrage returns - line feeds
+		strTemp = strTemp.replace(/&/g,'%26');
+		strTemp = strTemp.replace(/\+/g,'%2B');
+		strTemp = strTemp.replace(/ /g,'%20');
 		return strTemp;
 	}
 
-	function RefreshProof() 
+	function RefreshProof()
 	{
 		 var strURL = '';
 		 for(var i=0; i < document.getElementById('Form1').elements.length; i++)
@@ -101,32 +101,32 @@
 		{
 			document.getElementById("spnLiveProof").innerHTML='';
 			document.getElementById("btnPreview").style.display='';
-		}  
+		}
 		getProofs(xmlHttp.responseText)
 		if (document.PreviewHsRegistration != undefined) PreviewHsRegistration();
 
 	}
-	
+
 	function getProofs(strText)
 	{
 		var aryProofs = strText.split('<!--split-->');
 		if (document.getElementById('spnPDFProof'))document.getElementById('spnPDFProof').innerHTML = aryProofs[0];
-		
+
 		if ((document.getElementById('spnFrontProof')) && (aryProofs.length > 1))document.getElementById('spnFrontProof').innerHTML = aryProofs[1];
 		if ((document.getElementById('spnBackProof')) && (aryProofs.length > 2))document.getElementById('spnBackProof').innerHTML = aryProofs[2];
 	}
-	
-	
+
+
 	function stateChanged() {};
 
 	function openWin(strURL)
 	{
 		var winCurrent
 		winCurrent = window.open(strURL, "", "width=600,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=0,resizable=1");
-		winCurrent.focus(); 
+		winCurrent.focus();
 	}
 
-	
+
 
 </script>
 <!--headerson-->
@@ -243,7 +243,7 @@
 <!--Details-->
   <tr>
     <td colspan=2 width="100%">
-  
+
     <!--ProofTop-->
 	  <table border="0" cellpadding="2" cellspacing="2" class="wrapper">
 	    <!--LiveProof--><tr><td><span id="spnPDFProof"></span></td></tr><!--/LiveProof-->
@@ -259,12 +259,12 @@
   <!--HelpText-->
   <tr>
     <td valign="top" colspan="2"><blockquote>{HelpText}</blockquote></td>
-  </tr> 
+  </tr>
   <!--/HelpText-->
   <tr>
     <td valign="top">
 	  <table cellPadding=0 cellSpacing=0 width="100%" border=0>
-		 		
+
 		<!--GroupHeader-->
         <tr>
           <td colspan=2 width="100%">
@@ -284,7 +284,7 @@
         <!--Spacer-->
         <tr><td>&nbsp;</td></tr>
         <!--/Spacer-->
-		
+
 		<!--ProfileCaptionHeader-->
 		<tr><td class=labeltext></td><td><table border="0" class=wrapper><tr><td></td><td><a style="cursor:hand" onClick="OpenLocator('EmployeeLocator.asp?Template_Id={Template_Id}&ProfileCaption={ProfileCaption}')" nowrap>&nbsp;&nbsp;<u>{ProfileCaption}</u></a></td></tr></table></td></tr>
 		<!--/ProfileCaptionHeader-->
@@ -308,7 +308,7 @@
 	    <tr>
 		  <td>
 			  <!--LiveProof--><span id="spnPDFProof"></span><br><!--/LiveProof-->
-		    
+
 				  <span id="spnFrontProof"><!--FrontThumb-->{FrontThumb}<br>{FrontTemplateName}<br><!--/FrontThumb--></span><br>
 				  <span id="spnBackProof"><!--BackThumb-->{BackThumb}<br>{BackTemplateName}<br><!--/BackThumb--></span><br>
 			<!--LiveProof--><span id="spnLiveProof"></span><input type="button" value="Refresh Preview" name="btnPreview" id="btnPreview" onClick="return RefreshProof();"><!--/LiveProof-->

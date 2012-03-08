@@ -11,26 +11,26 @@
 
 	var blnOrder = false
 
-	function selectSeeds(cboCur)
-	{
-	//<!--SEEDS-->
-	    if (document.getElementById('hidSeedListId'))document.getElementById('hidSeedListId').value = cboCur.value;
+	function selectSeeds(cboCur) {
+		//<!--SEEDS-->
+		if (document.getElementById('hidSeedListId')) {
+			document.getElementById('hidSeedListId').value = cboCur.value;
+		}
+
 	    getListInfo(cboCur.value, '1', true);
-	//<!--/SEEDS-->
+		//<!--/SEEDS-->
 	}
 
-	function getSeedList(strListId)
-	{
-	//<!--Write-->
-	    var objXML = null;
+	function getSeedList(strListId) {
+		//<!--Write-->
+		var objXML = null;
 
-	    objXML = AjaxGet('AJAXOrder.asp?what=seedlist&list=' + strListId, null, false, objXML);
+		objXML = AjaxGet('AJAXOrder.asp?what=seedlist&list=' + strListId, null, false, objXML);
 
-	    if (objXML != null)
-	    {
-	        document.getElementById('spnseedlist').innerHTML = objXML.responseText;
-	    }
-	//<!--/Write-->
+	    if (objXML != null) {
+			document.getElementById('spnseedlist').innerHTML = objXML.responseText;
+		}
+		//<!--/Write-->
 	}
 
 	//<!--MULTIDROP-->

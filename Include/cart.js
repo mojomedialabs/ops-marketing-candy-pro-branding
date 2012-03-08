@@ -190,10 +190,28 @@ $(function() {
 		window.location = "cIndex.asp";
 	});
 
+	$("#btnaddtoothercarts").on("click", function(event) {
+		event.preventDefault();
+
+		var orders = "";
+
+		$("#Form1 input[type='checkbox'][name='chkOrder']").each(function(index) {
+			if (($this).is(":checked")) {
+				orders += $(this).val() + ",";
+			}
+		});
+
+		if (orders.length > 0 && orders[orders.length - 1] === ",") {
+			orders = orders.substring(0, orders.length - 1);
+		}
+
+		window.location = "AdminCopyOrders.asp?OrderIds=" + orders + "&cc=" + $(this).data("cc");
+	});
+
 	$("#btnCheckout").on("click", function(event) {
 		var orders = "";
 
-		$("input[type=][name='chkOrder']").each(function(index) {
+		$("#Form1 input[type='checkbox'][name='chkOrder']").each(function(index) {
 			if (($this).is(":checked")) {
 				orders += $(this).val() + ",";
 			}

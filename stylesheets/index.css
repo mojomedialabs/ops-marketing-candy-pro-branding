@@ -11,13 +11,6 @@
 	font-style: normal;
 }
 
-/*@font-face {
-	font-family: 'Lora';
-	font-style: normal;
-	font-weight: normal;
-	src: local('Lora'), url('http://themes.googleusercontent.com/static/fonts/lora/v4/nAKwuw6_dIh5kwvpj3ShNfesZW2xOQ-xsNqO47m55DA.woff') format('woff');
-}*/
-
 @font-face {
 	font-family: Lora;
 	src: url("http://marketing-candy.com/wp-includes/Lora.eot");
@@ -29,13 +22,6 @@
 	font-style: normal;
 }
 
-/*@font-face {
-	font-family: 'Lora';
-	font-style: italic;
-	font-weight: normal;
-	src: local('Lora Italic'), local('Lora-Italic'), url('http://themes.googleusercontent.com/static/fonts/lora/v4/9imnXKme9i4It2hFQOvfvevvDin1pK8aKteLpeZ5c0A.woff') format('woff');
-}*/
-
 @font-face {
 	font-family: Lora;
 	src: url("http://marketing-candy.com/wp-includes/LoraItalic.eot");
@@ -44,10 +30,6 @@
 		 url("http://marketing-candy.com/wp-includes/LoraItalic.ttf") format("truetype"),
 		 url("http://marketing-candy.com/wp-includes/LoraItalic.svg#LoraItalic") format("svg");
 	font-weight: normal;
-	font-style: italic;
-}
-
-em {
 	font-style: italic;
 }
 
@@ -118,19 +100,45 @@ h6 {
 /* Begin General Form Styles */
 
 label {
-	font-family: BebasNeue, Arial, sans-serif;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 }
 
 input[type="text"], input[type="password"], select {
-	border: none;
+	border: 1px solid #1c99ca;
 	font-size: 18px;
+	padding: 3px 3px 0 3px;
 	width: 140px;
 }
 
 input[type="checkbox"] {
 	vertical-align: middle;
+}
+
+input[type="button"] {
+	border: 0;
+	color: #591f00;
+	font-weight: bold;
+	height: 30px;
+	text-transform: uppercase;
+	min-width: 90px;
+}
+
+input[type="button"]:active {
+	color: #ffffff;
+}
+
+input[type="submit"] {
+	border: 0;
+	color: #591f00;
+	font-weight: bold;
+	height: 30px;
+	text-transform: uppercase;
+	min-width: 90px;
+}
+
+input[type="submit"]:active {
+	color: #ffffff;
 }
 
 /* End General Form Styles */
@@ -151,7 +159,7 @@ input[type="checkbox"] {
 /* Begin Header */
 
 header {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/loginheader.png");
+	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/Include/loginheader.png");
 	height: 134px;
 	margin: 0 auto 20px auto;
 	width: 958px;
@@ -182,7 +190,7 @@ header {
 }
 
 #main-nav ul li a {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/menuarrow.png") no-repeat scroll right center transparent;
+	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/Include/menuarrow.png") no-repeat scroll right center transparent;
 	padding: 5px 11px 5px 1px;
 }
 
@@ -211,19 +219,19 @@ header {
 }
 
 #rss {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/socialicons.png") no-repeat scroll 0 0 transparent;
+	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/Include/socialicons.png") no-repeat scroll 0 0 transparent;
 }
 
 #twitter {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/socialicons.png") no-repeat scroll -22px 0 transparent;
+	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/Include/socialicons.png") no-repeat scroll -22px 0 transparent;
 }
 
 #facebook {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/socialicons.png") no-repeat scroll -88px 0 transparent;
+	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/Include/socialicons.png") no-repeat scroll -88px 0 transparent;
 }
 
 #linkedin {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/socialicons.png") no-repeat scroll -66px 0 transparent;
+	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/Include/socialicons.png") no-repeat scroll -66px 0 transparent;
 }
 
 #rss:hover {
@@ -307,27 +315,27 @@ footer p a {
 }
 
 #alert-message.attention {
-	background: #ffdb91 url("attention.png") no-repeat 15px center;
+	background: #ffdb91 url(attention.png) no-repeat 15px center;
 	border: 1px solid #ffc44a;
 }
 
 #alert-message.success {
-	background: #e2ff7d url("success.png") no-repeat 15px center;
+	background: #e2ff7d url(success.png) no-repeat 15px center;
 	border: 1px solid #99c600;
 }
 
 #alert-message.error {
-	background: #f5b5a9 url("error.png") no-repeat 15px center;
+	background: #f5b5a9 url(error.png) no-repeat 15px center;
 	border: 1px solid #eb5339;
 }
 
 #alert-message.information {
-	background: #b3cfea url("information.png") no-repeat 15px center;
+	background: #b3cfea url(information.png) no-repeat 15px center;
 	border: 1px solid #418acc;
 }
 
 #alert-message.lightbulb {
-	background: #feefcb url("lightbulb.png") no-repeat 15px center;
+	background: #feefcb url(lightbulb.png) no-repeat 15px center;
 	border: 1px solid #d3a350;
 }
 
@@ -457,56 +465,22 @@ footer p a {
 
 #products-search {
 	background-color: #afe1f4;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#afe1f4), to(#00aedb)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient(top, #afe1f4, #00aedb); /* Chrome 10+, Saf5.1+, iOS 5+ */
-	background-image:	 -moz-linear-gradient(top, #afe1f4, #00aedb); /* FF3.6 */
-	background-image:	  -ms-linear-gradient(top, #afe1f4, #00aedb); /* IE10 */
-	background-image:	   -o-linear-gradient(top, #afe1f4, #00aedb); /* Opera 11.10+ */
-	background-image:		  linear-gradient(top, #afe1f4, #00aedb);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#afe1f4', EndColorStr='#00aedb'); /* IE6–IE9 */
 	color: #591f00;
 	padding: 7px 43px;
 	margin-bottom: 20px;
 }
 
-#products-search input[type="submit"] {
-	background: url("http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mc/Include/submitbutton.png");
-	border: 0;
-	color: #591f00;
-	font-weight: bold;
-	height: 30px;
-	margin: 0 10px;
-	text-indent: -20px;
-	text-transform: uppercase;
-	width: 99px;
+#products-search input[type="text"] {
+	width: 250px;
 }
 
-#products-search input[type="submit"]:active {
-	color: #ffffff;
+#products-search input[type="submit"] {
+	margin: 0 10px;
 }
 
 /* End Product Search */
 
 /* Begin Products */
-
-#added-to-cart {
-	background: #e2ff7d url(success.png) no-repeat 15px center;
-	border: 1px solid #99c600;
-	display: none;
-	left: 5px;
-	min-height: 16px;
-	position: absolute;
-	padding: 10px 15px 10px 62px;
-	text-align: left;
-	top: 5px;
-	width: 300px;
-	z-index: 10;
-}
-
-#added-to-cart-header {
-	font-weight: bold;
-	margin-bottom: 10px;
-}
 
 #products {
 	margin: 10px 0;
@@ -518,10 +492,8 @@ footer p a {
 }
 
 .product {
-	/*float: left;*/
 	margin: 10px;
-	height: 379px;
-	width: 100%; /*236px;*/
+	width: 100%;
 }
 
 .product-name {
@@ -554,34 +526,8 @@ footer p a {
 	border-left: 1px dotted;
 }
 
-.product-actions {
-	background: #afe1f4;
-	height: 30px;
-	clear: both;
-}
-
-.product-checkbox {
-	display: none;
-	float: left;
-	margin-left: 5px;
-	margin-top: 8px;
-}
-
-.product-checkbox input[type="checkbox"] {
-	height: 14px;
-	margin-left: 5px;
-	width: 14px;
-}
-
-.product-quantity {
-	float: left;
-	margin-left: 5px;
-	margin-top: 5px;
-}
-
-.product-quantity input[type="text"], .product-quantity select {
-	margin-left: 5px;
-	width: 129px;
+.product-stock {
+	margin-top: 10px;
 }
 
 .product-extras {
@@ -603,15 +549,37 @@ footer p a {
 	margin: 0 5px;
 }
 
-.product-favorite {
+.product-actions {
+	background: #afe1f4;
+	clear: both;
+	overflow: hidden;
+	padding: 7px 43px;
+}
+
+.product-checkbox {
+	display: none;
+}
+
+.product-quantity {
 	float: left;
-	margin-left: 5px;
 	margin-top: 3px;
+}
+
+.product-quantity input[type="text"], .product-quantity select {
+	width: 129px;
 }
 
 .products-add-to-cart {
 	float: left;
-	margin: 5px 10px;
+}
+
+.products-add-to-cart input[type="submit"] {
+	margin: 0 10px;
+}
+
+.product-favorite {
+	float: left;
+	margin-left: 5px;
 }
 
 /* End Products */
@@ -638,6 +606,13 @@ footer p a {
 	text-align: center;
 }
 
+.product-category-thumbnail a {
+	display: block;
+	height: 200px;
+	margin: 0 auto;
+	width: 222px;
+}
+
 .product-category-thumbnail img {
 	max-height: 200px;
 	vertical-align: middle;
@@ -649,6 +624,55 @@ footer p a {
 }
 
 /* End Product Categories */
+
+/* Begin Step1new */
+
+#product-style {
+
+}
+
+#select-product-style {
+	display: none;
+}
+
+#product-style-preview {
+	text-align: center;
+}
+
+#product-style-preview img {
+	max-height: 500px;
+}
+
+#product-style-actions {
+	background: #afe1f4;
+	clear: both;
+	margin-top: 20px;
+	overflow: hidden;
+	padding: 7px 43px;
+}
+
+.product-style-detail {
+	float: left;
+}
+
+#product-style-quantity {
+	margin-top: 3px;
+}
+
+#product-style-quantity select {
+	width: 200px;
+}
+
+#product-style-buttons {
+	float: left;
+	margin-left: 10px;
+}
+
+#product-style-buttons input[type="submit"] {
+	margin: 0 10px;
+}
+
+/* End Step1New */
 
 /* Begin Orders */
 
@@ -769,6 +793,11 @@ footer p a {
 .cart-quantity {
 }
 
+.cart-quantity input[type="text"], .cart-quantity select {
+	font-size: 14px;
+	width: 60px;
+}
+
 .cart-product-name {
 }
 
@@ -803,23 +832,18 @@ select[name="DeliveryAddress"] {
 }
 
 #order-proof-thumbnail {
-	float: left;
-	width: 50%;
 }
 
 #order-proof-details {
-	float: right;
-	width: 50%;
 }
 
 #order-proof-thumbnail-front, #order-proof-thumbnail-back {
     margin: 0 10px 10px 0;
     text-align: center;
-	width: 350px;
 }
 
 #order-proof-thumbnail-front img, #order-proof-thumbnail-back img {
-	max-height: 300px;
+	max-height: 500px;
 }
 
 /* End Order Proof */
@@ -880,6 +904,10 @@ select[name="DeliveryAddress"] {
 	position: absolute;
 	right: -8px;
 	top: -8px;
+}
+
+#pricing-disclaimer {
+	margin-top: 10px;
 }
 
 /* End Checkout */

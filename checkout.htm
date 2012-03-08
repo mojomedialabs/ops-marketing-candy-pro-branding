@@ -1,64 +1,40 @@
+<div id="alert-message">
+	<div id="alert-message-title"></div>
+	<div id="alert-message-body"></div>
+</div>
+<div id="order-ids" style="display: none;">{orderids}</div>
+<div id="currency-symbol" style="display: none;">{CurrencySymbol}</div>
+<div id="total" style="display: none;">{total}</div>
+<div id="budget-total" style="display: none;">{budgettotal}</div>
+<div id="available-balance" style="display: none;">{availablebalance}</div>
+<div id="allowance-time" style="display: none;">{allowancetime}</div>
+<div id="invoice-only" style="display: none;">{invoiceOnly}</div>
+<div id="cost-of-items" style="display: none;">{CostOfItems}</div>
+<div id="handling-cost" style="display: none;">{HandlingCost}</div>
+<div id="tax-rate" style="display: none;">{TaxRate}</div>
+<div id="tax-freight" style="display: none;">{TaxFreight}</div>
+<div id="discount" style="display: none;">{Discount}</div>
 <script src="include/ajax.js"></script>
 <script>
-function stopRKey(evt) {
-	var evt = (evt) ? evt : ((event) ? event : null);
-	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-	if ((evt.keyCode == 13) && (node.type != "textarea")) {
-		return false;
-	}
-}
-document.onkeypress = stopRKey;
-
-function CheckLiveStock() {
-	if (!AjaxGet("CheckLiveStockAjax.asp?Orders={orderids}", AfterCheckStock, false)) {
-		alert("Browser doesn't support AJAX");
-	}
-	if (xmlHttp.responseText == 'OK') return true;
-	else {
-		if (xmlHttp.responseText == 'NOKCap') {
-			alert('{Cart - Quantity Cap Error Return Cart}');
-			window.location = 'cart.asp'
-			return false;
-		} else {
-			alert('{Cart - Stock Level Error}');
-			window.location = 'cart.asp'
-			return false;
-		}
-	}
-}
-
-function AfterCheckStock() {
-	return true;
-}
 
 function setup() {
 	if (document.getElementById('EIFGroupNameList').value != '') EIFGroupClicked('');
-	TogglePONumber({
-		invoiceOnly
-	}); {
-		freightload
+
+	var invoiceOnly = $("#invoice-only").text().trim();
+
+	if (invoiceOnly !== "") {
+		TogglePONumber(invoiceOnly);
 	}
 }
 
 function UpdateFreight(intIndex) {
-	<!--COST -->
-	var dblCostOfItems = {
-		CostOfItems
-	};
-	var dblHandling = {
-		HandlingCost
-	};
-	var dblTax = {
-		TaxRate
-	};
+	var dblCostOfItems = parseFloat($("#cost-of-items").text().trim());
+	var dblHandling = parseFloat($("#handling-cost").text().trim());
+	var dblTax = parseFloat($("#tax-rate").text().trim());
 	var dblTaxCost = 0;
-	var blnTaxFreight = {
-		TaxFreight
-	};
-	var dblDiscount = {
-		Discount
-	};
-	<!--FREIGHTJavascript -->
+	var blnTaxFreight = $("#tax-freight").text().trim().toLowerCase() === "true";
+	var dblDiscount = parseFloat($("#discount").text().trim());
+	/*<!--FREIGHTJavascript -->
 
 	if (isEmpty(intIndex)) {
 		intIndex = document.Form1.elements['hidfreight'].value
@@ -80,9 +56,8 @@ function UpdateFreight(intIndex) {
 	}
 	<!--/TAXJavascript-->
 	total.innerHTML = '{CurrencySymbol}' + (dblTaxCost + (dblCostOfItems + dblFreight + dblHandling - dblDiscount)).toFixed(2);
-	<!--/FREIGHTJavascript -->
+	<!--/FREIGHTJavascript -->*/
 	CalculateBudget();
-	<!--/COST-->
 }
 
 function ValidData() {
@@ -153,21 +128,6 @@ function CheckEntry(ctrlCur, strCaption, blnRequired, strLength, strType) {
 				return false;
 			}
 		}
-	}
-
-	return true;
-}
-
-function isWhitespace(strCurrent) {
-	var i;
-	var whitespace = " \t\n\r";
-
-	if (isEmpty(strCurrent)) return true;
-
-	for (i = 0; i < strCurrent.length; i++) {
-		var c = strCurrent.charAt(i);
-
-		if (whitespace.indexOf(c) == -1) return false;
 	}
 
 	return true;
@@ -252,53 +212,6 @@ function isEmail(s) {
 	else return true;
 }
 
-function CalculateBudget() {
-	<!--CalculateBudget-->
-	var dblTotal;
-	var blnCost = false;
-	var strBudget = '';
-
-	<!--COST -->
-	blnCost = true;
-	<!--/COST-->
-	{BudgetTotalJS}
-
-	if (document.getElementById("total"))
-	{
-		dblTotal = parseFloat(document.getElementById("total").innerHTML.replace('{CurrencySymbol}', ''));
-	} else {
-		dblTotal = parseFloat('{total}'.replace('{CurrencySymbol}', ''));
-	}
-	if (strBudget!='')
-	{
-		dblTotal = parseFloat('{budgettotal}'.replace('{CurrencySymbol}', ''));
-	}
-
-	var dblBalance = parseFloat('{availablebalance}'.replace('{CurrencySymbol}', '').replace(',', ''));
-	var dblFinal = dblBalance - dblTotal;
-
-	if (dblFinal <= 0)
-	{
-		if(document.getElementById("btnFinal")) document.getElementById("btnFinal").style.display = "none";
-		if(blnCost)
-		{
-			document.getElementById("spanbalance").innerHTML = "This exceeds your {allowancetime} Allowance by {CurrencySymbol}" + Math.abs(dblFinal).toFixed(2);
-		} else {
-			document.getElementById("spanbalance").innerHTML = "This exceeds your {allowancetime} Allowance";
-		}
-	} else {
-		if(document.getElementById("btnFinal")) document.getElementById("btnFinal").style.display = "";
-	}
-
-	if (blnCost)
-	{
-		document.getElementById("budgetallowance").style.display = "";
-		document.getElementById("budgetcurrent").style.display = "";
-		document.getElementById("budgetavailable").style.display = "";
-	}
-	<!--/CalculateBudget -->
-}
-
 function EIFGroupClicked(strVal) {
 	var aryGroups;
 	var iCntr = 0;
@@ -355,14 +268,10 @@ function setOpacity(opacity, objObject) {
 	// Safari 1.2, newer Firefox and Mozilla, CSS3
 	objObject.style.opacity = opacity / 100;
 }
-
-function functionOnLoad() {
-	setup();
-}
 </script>
 <!--TabTableStart-->
 <!--ORDERS-->
-<form action="Checkout.asp" method="post" name="Form1" onSubmit="return ValidData()">
+<form action="Checkout.asp" method="post" name="Form1">
 	<input type="hidden" name="cc" value="{CC}" />
 	<!--Budget-->
 	<div id="budget">
@@ -373,7 +282,7 @@ function functionOnLoad() {
 			<strong>Current Balance:</strong> {balance}
 		</div>
 		<div id="budgetavailable">
-			<strong>Availabl Balance:</strong> {availablebalance}
+			<strong>Available Balance:</strong> {availablebalance}
 		</div>
 	</div>
 	<!--/Budget-->
@@ -581,16 +490,12 @@ function functionOnLoad() {
 	<input type="hidden" name="GroupDiscount" value="{GroupDiscount}" />
 	<input type="hidden" name="TotalAllocatedToBudget" value="{TotalAllocatedToBudget}" />
 	<input type="hidden" name="PayForBudget" value="{PayForBudget}" />
-	<input type="button" value="<< Return to Cart" onClick="javascript:history.go(-1)">
+	<input type="button" value="Return to Cart" id="btnBack" />
 	<!--OrderButton-->
-	<input type="submit" value="Submit Order >>" id=btnFinal name=btnFinal onClick="return CheckLiveStock();" style='display:{orderdisplay}'>
+	<input type="submit" value="Submit Order" id="btnFinal" name="btnFinal" />
 	<!--/OrderButton-->
 </form>
-<p style="margin-top: 10px;">Pricing is based on when this product had originally been purchased.  Pricing may have changed from the original purchase date.  If there is a discrepancy, you will be notified prior to the order proceeding.</p>
-<script>
-$("tr.Hide").remove();
-
-CalculateBudget();
-</script>
+<p id="pricing-disclaimer">Pricing is based on when this product had originally been purchased. Pricing may have changed from the original purchase date. If there is a discrepancy, you will be notified prior to the order proceeding.</p>
 <!--/ORDERS-->
 <!--TabTableEnd-->
+<script src="http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/include/checkout.js"></script>

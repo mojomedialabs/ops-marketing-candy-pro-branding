@@ -1,0 +1,230 @@
+<script src="include/validation.js"></script>
+<script>
+	function validateField(curInput) {
+		<!--validateField-->
+		<!--visibleField-->
+	}
+
+	function validateForm() {
+		<!--validateSubmit-->
+		<!--validateForm-->
+		return true;
+	}
+
+	function hasValue(strName) {
+		<!--hasvalue-->
+		return true;
+	}
+
+	function validateLoad() {
+		<!--validateLoad-->
+		return true;
+	}
+
+	function ShowThumb(cboxCur, intIndex) {
+		<!--ImageJava-->
+	}
+
+	function limitText(limitField, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+			document.getElementById(limitField.id + "MaxChars").innerHTML = "<br />-Max Characters Reached-";
+		} else {
+			document.getElementById(limitField.id + "MaxChars").innerHTML = "";
+		}
+	}
+</script>
+<script src="include/enterdetailsval.js"></script>
+<form name="Form1" id="Form1" action="Step3New.asp{params}" method="post" onSubmit="return validateForm();">
+	<input type=hidden name="hidreturnto" id="hidreturnto" value="{returnto}">
+	<h1>{Name}</h1>
+	<!--TabTableStart-->
+		<table border=0 cellpadding="2" cellspacing="2" class="wrapper" width="100%">
+			<!--Details-->
+				<tr>
+					<td colspan=2 width="100%">
+						<!--ProofTop-->
+							<table border="0" cellpadding="2" cellspacing="2" class="wrapper">
+								<!--LiveProof-->
+									<tr>
+										<td>
+											<span id="spnPDFProof">
+											</span>
+										</td>
+									</tr>
+								<!--/LiveProof-->
+								<tr>
+									<td>
+										<span id="spnFrontProof">
+											<!--FrontThumb-->
+												{FrontThumb}
+												<br />
+												{FrontTemplateName}
+											<!--/FrontThumb-->
+										</span>
+									</td>
+									<td>
+										<span id="spnBackProof">
+											<!--BackThumb-->
+												{BackThumb}
+												<br />
+												{BackTemplateName}
+											<!--/BackThumb-->
+										</span>
+									</td>
+								</tr>
+								<!--LiveProof-->
+									<tr>
+										<td>
+											<span id="spnLiveProof">
+											</span>
+											<input type="button" value="Refresh Preview" name="btnPreview" id="btnPreview" onClick="return RefreshProof();">
+										</td>
+									</tr>
+								<!--/LiveProof-->
+							</table>
+						<!--/ProofTop-->
+					</td>
+				</tr>
+				<!--HelpText-->
+					<tr>
+						<td valign="top" colspan="2">
+							<blockquote>
+								{HelpText}
+							</blockquote>
+						</td>
+  					</tr>
+				<!--/HelpText-->
+				<tr>
+					<td valign="top">
+						<table cellPadding=0 cellSpacing=0 width="100%" border=0>
+							<!--GroupHeader-->
+								<tr>
+									<td colspan=2 width="100%">
+										<table cellSpacing=0 cellPadding=0 border=0 width="100%">
+											<tr>
+												<td>
+													<img height=19 alt="" src="images/tab_g.gif" width=8 border=0>
+												</td>
+												<td class="labelgrouptext" background=images/tab_fond.gif nowrap>
+													{Caption}
+												</td>
+												<td>
+													<img height=19 alt="" src="images/tab_d.gif" width=8 border=0>
+												</td>
+												<td width="100%">
+													<img height=1 alt="" src="images/spacer.gif" width=1 border=0>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" height=2  width="100%" bgcolor=dce5ea>
+													<img src="images/spacer.gif" height=2 border=0>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							<!--/GroupHeader-->
+							<!--Spacer-->
+								<tr>
+									<td>
+										&nbsp;
+									</td>
+								</tr>
+							<!--/Spacer-->
+							<!--ProfileCaptionHeader-->
+								<tr>
+									<td class=labeltext>
+									</td>
+									<td>
+										<table border="0" class=wrapper>
+											<tr>
+												<td>
+												</td>
+												<td>
+													<a style="cursor:hand" onClick="OpenLocator('EmployeeLocator.asp?Template_Id={Template_Id}&amp;ProfileCaption={ProfileCaption}')" nowrap>&nbsp;&nbsp;{ProfileCaption}</a>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							<!--/ProfileCaptionHeader-->
+							<!--FieldLayout-->
+								<tr>
+									<td align="right" class=labeltext valign=top>
+										{FieldCaption}&nbsp;&nbsp;
+									</td>
+									<td class=maintext nowrap>
+										<table border="0" class=wrapper>
+											<tr>
+												<td nowrap>
+													{FieldCaptionOptions}{Field}
+												</td>
+												<td>
+													{FieldScreenTip}
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							<!--/FieldLayout-->
+						<!--/Details-->
+						<input type=hidden class=textboxtext Name=pid size="5" value="{pid}">
+						<!--BUTTONS-->
+							<tr>
+								<td>
+								</td>
+								<td>
+									<br>
+									<input type="button" value="Cancel" onClick="window.history.back()">
+									&nbsp;
+									<input type=submit name="btnSubmit" value ="Next">
+									<br>
+								</td>
+							</tr>
+						<!--/BUTTONS-->
+					</table>
+				</td>
+				<td valign="top" align="right">
+					<!--ProofRight-->
+						<table class=wrapper>
+							<tr>
+								<td>
+									<!--LiveProof-->
+										<span id="spnPDFProof">
+										</span>
+										<br>
+									<!--/LiveProof-->
+									<span id="spnFrontProof">
+										<!--FrontThumb-->
+											{FrontThumb}
+											<br>
+											{FrontTemplateName}
+											<br>
+										<!--/FrontThumb-->
+									</span>
+									<br>
+									<span id="spnBackProof">
+										<!--BackThumb-->
+											{BackThumb}
+											<br>
+											{BackTemplateName}
+											<br>
+										<!--/BackThumb-->
+									</span>
+									<br>
+									<!--LiveProof-->
+										<span id="spnLiveProof">
+										</span>
+										<input type="button" value="Refresh Preview" name="btnPreview" id="btnPreview" onClick="return RefreshProof();">
+									<!--/LiveProof-->
+								</td>
+							</tr>
+						</table>
+					<!--/ProofRight-->
+				</td>
+			</tr>
+		</table>
+	<!--TabTableEnd-->
+</form>
+<script src="http://host.onlineprintsolutions.com/rosegroup/Files/BrokerBranding/mcpro/include/enterdetails.js"></script>
