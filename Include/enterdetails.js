@@ -47,4 +47,14 @@ $(function() {
 	}
 
 	$("#spnFrontProof img").removeAttr("width");
+
+	$("#btnPreview").on("click", function() {
+		return RefreshProof();
+	});
+
+	$("#btnCancel").on("click", function(event) {
+		event.preventDefault();
+
+		window.history.back();
+	});
 });

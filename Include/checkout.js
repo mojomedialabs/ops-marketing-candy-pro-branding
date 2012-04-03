@@ -28,6 +28,24 @@ function CalculateBudget() {
 }
 
 $(function() {
+	if (document.getElementById('EIFGroupNameList').value !== "") {
+		EIFGroupClicked("");
+	}
+
+	var invoiceOnly = $("#invoice-only").text().trim();
+
+	if (invoiceOnly !== "") {
+		TogglePONumber(invoiceOnly);
+	}
+
+	$("tr.Hide").remove();
+
+	TogglePONumber();
+
+	CalculateBudget();
+
+	UpdateFreight();
+
 	$("#btnBack").on("click"), function(event) {
 		event.preventDefault();
 
@@ -54,10 +72,5 @@ $(function() {
 		return ValidData();
 	});
 
-	$("tr.Hide").remove();
-
-	TogglePONumber();
-
-	CalculateBudget();
 
 });

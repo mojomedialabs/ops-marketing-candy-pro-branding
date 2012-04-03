@@ -307,7 +307,7 @@ $(function() {
 			if (minimumQuantity.indexOf(": ") !== -1) {
 				minimumQuantity = parseInt(minimumQuantity.substr(minimumQuantity.indexOf(": ") + 2));
 
-				if (isNan(minimumQuantity)) {
+				if (isNaN(minimumQuantity)) {
 					minimumQuantity = 1;
 				}
 			} else {

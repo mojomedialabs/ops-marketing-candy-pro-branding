@@ -177,7 +177,7 @@ $(function() {
 
 						$("#promocode").val("");
 					} else {
-						window.location = "Promotions.asp?code=" + xmlHttp.responseText + "&cc=" + costCentre;
+						window.location = "Promotions.asp?code=" + jqXHR.responseText + "&cc=" + costCentre;
 					}
 				}
 			});
@@ -212,7 +212,7 @@ $(function() {
 		var orders = "";
 
 		$("#Form1 input[type='checkbox'][name='chkOrder']").each(function(index) {
-			if (($this).is(":checked")) {
+			if ($(this).is(":checked")) {
 				orders += $(this).val() + ",";
 			}
 		});

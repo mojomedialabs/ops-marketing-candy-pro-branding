@@ -4,7 +4,7 @@
 </div>
 <div id="order-ids" style="display: none;">{orderids}</div>
 <div id="currency-symbol" style="display: none;">{CurrencySymbol}</div>
-<div id="total" style="display: none;">{total}</div>
+<div id="order-total" style="display: none;">{total}</div>
 <div id="budget-total" style="display: none;">{budgettotal}</div>
 <div id="available-balance" style="display: none;">{availablebalance}</div>
 <div id="allowance-time" style="display: none;">{allowancetime}</div>
@@ -28,13 +28,50 @@ function setup() {
 }
 
 function UpdateFreight(intIndex) {
-	var dblCostOfItems = parseFloat($("#cost-of-items").text().trim());
+<!--COST-->
+	var dblCostOfItems = {CostOfItems};
+	var dblHandling = {HandlingCost};
+	var dblTax = {TaxRate};
+	var dblTaxCost = 0;
+	var blnTaxFreight = {TaxFreight};
+	var dblDiscount = {Discount};
+<!--FREIGHTJavascript-->
+
+	if (isEmpty(intIndex))
+	{
+		intIndex = document.Form1.elements['hidfreight'].value
+	}
+	else
+	{
+		document.Form1.elements['hidfreight'].value = intIndex
+	}
+
+	var dblFreight = parseFloat(document.Form1.elements['FreightCostOp' + intIndex].value);
+	$("#freightcost").html('{CurrencySymbol}' + dblFreight.toFixed(2));
+	$("#freighthandlingcost").html('{CurrencySymbol}' + (dblFreight + dblHandling).toFixed(2));
+<!--TAXJavascript-->
+	$("#subtotal").html('{CurrencySymbol}' + (dblCostOfItems + dblFreight + dblHandling - dblDiscount).toFixed(2));
+	if (blnTaxFreight)
+	{
+		dblTaxCost = dblTax * (dblCostOfItems + dblFreight + dblHandling)
+		$("tax").html('{CurrencySymbol}' + dblTaxCost.toFixed(2));
+	} else {
+		dblTaxCost = dblTax * (dblCostOfItems);
+		$("#tax").html('{CurrencySymbol}' + dblTaxCost.toFixed(2));
+	}
+<!--/TAXJavascript-->
+	$("#total").html('{CurrencySymbol}' + (dblTaxCost + (dblCostOfItems + dblFreight + dblHandling - dblDiscount)).toFixed(2));
+<!--/FREIGHTJavascript-->
+	CalculateBudget();
+<!--/COST-->
+
+/*	var dblCostOfItems = parseFloat($("#cost-of-items").text().trim());
 	var dblHandling = parseFloat($("#handling-cost").text().trim());
 	var dblTax = parseFloat($("#tax-rate").text().trim());
 	var dblTaxCost = 0;
 	var blnTaxFreight = $("#tax-freight").text().trim().toLowerCase() === "true";
 	var dblDiscount = parseFloat($("#discount").text().trim());
-	/*<!--FREIGHTJavascript -->
+	<!--FREIGHTJavascript -->
 
 	if (isEmpty(intIndex)) {
 		intIndex = document.Form1.elements['hidfreight'].value
@@ -56,8 +93,8 @@ function UpdateFreight(intIndex) {
 	}
 	<!--/TAXJavascript-->
 	total.innerHTML = '{CurrencySymbol}' + (dblTaxCost + (dblCostOfItems + dblFreight + dblHandling - dblDiscount)).toFixed(2);
-	<!--/FREIGHTJavascript -->*/
-	CalculateBudget();
+	<!--/FREIGHTJavascript -->
+	CalculateBudget();*/
 }
 
 function ValidData() {
@@ -358,19 +395,19 @@ function setOpacity(opacity, objObject) {
 			<!--HANDLING-->
 			<tr id="checkout-handling" class="{ShowHideHandling}">
 				<td colspan="4">{HandlingCaption}</td>
-				<td>{handling}</td>
+				<td id="handlingcost">{handling}</td>
 			</tr>
 			<!--/HANDLING-->
 			<!--FREIGHT-->
 			<tr id="checkout-freight" class="{ShowHideFreight}">
 				<td colspan="4">{FreightCaption}</td>
-				<td>{freight}</td>
+				<td id="freightcost">{freight}</td>
 			</tr>
 			<!--/FREIGHT-->
 			<!--FREIGHTHANDLING-->
 			<tr id="checkout-freighthandling" class="{ShowHideFreightHandling}">
 				<td colspan="4">{FreightCaption}</td>
-				<td>{freighthandling}</td>
+				<td id="freighthandlingcost">{freighthandling}</td>
 			</tr>
 			<!--/FREIGHTHANDLING-->
 			<!--DISCOUNT-->
@@ -382,26 +419,26 @@ function setOpacity(opacity, objObject) {
 			<!--TAX-->
 			<tr id="checkout-subtotal">
 				<td colspan="4">Total Excluding {TaxLabel}</td>
-				<td>{subtotal}</td>
+				<td id="subtotal">{subtotal}</td>
 			</tr>
 			<tr id="checkout-tax">
 				<td colspan="4">{TaxLabel}</td>
-				<td>{tax}</td>
+				<td id="tax">{tax}</td>
 			</tr>
 			<!--/TAX-->
 			<tr id="checkout-total">
 				<td colspan="4">Total {taxinc} <!--TAXLABEL-->{TaxLabel}<!--/TAXLABEL--></td>
-				<td>{total}</td>
+				<td id="total">{total}</td>
 			</tr>
 			<!--BudgetTotals-->
 			<!--BudgetAllocation-->
 			<tr id="checkout-budget-allocation">
 				<td colspan="4">Allocated To Budget</td>
-				<td>{budgettotal}</td>
+				<td id="budgettotal">{budgettotal}</td>
 			</tr>
 			<tr id="checkout-budget-total">
 				<td colspan="4">Total to Pay</td>
-				<td>{budgettotaltopay}</td>
+				<td id="budgettotaltopay">{budgettotaltopay}</td>
 			</tr>
 			<!--/BudgetAllocation-->
 			<!--/BudgetTotals-->

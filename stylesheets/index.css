@@ -291,6 +291,10 @@ footer p a {
 	color: #aaaaaa !important;
 }
 
+.AuthorizeNetSeal {
+	width: 100% !important;
+}
+
 /* End Footer */
 
 /* Begin Message */
@@ -672,7 +676,47 @@ footer p a {
 	margin: 0 10px;
 }
 
+.detail-field {
+	overflow: hidden;
+}
+
+.detail-field label {
+	display: block;
+	float: left;
+}
+
+.detail-field input {
+	display: block;
+	float: left;
+}
+
 /* End Step1New */
+
+/* Begin EnterDetails */
+
+#spnFrontProof {
+	margin: 0 auto;
+	width: 600px;
+}
+
+#spnBackProof {
+	margin: 0 auto;
+	width: 600px;
+}
+
+.enter-details-field {
+	margin-top: 10px;
+}
+
+#enter-details-buttons {
+	margin-top: 10px;
+}
+
+#enter-details-buttons input[type="submit"], #enter-details-buttons input[type="button"] {
+	margin-right: 10px;
+}
+
+/* End EnterDetails */
 
 /* Begin Orders */
 
@@ -843,7 +887,9 @@ select[name="DeliveryAddress"] {
 }
 
 #order-proof-thumbnail-front img, #order-proof-thumbnail-back img {
+	border: 1px solid #afe1f4;
 	max-height: 500px;
+	padding: 10px;
 }
 
 /* End Order Proof */
